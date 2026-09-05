@@ -4,7 +4,13 @@ import { useAuth } from '../context/AuthContext'
 
 export default function Register() {
   const { register } = useAuth()
-  const [form, setForm] = useState({ name: '', email: '', password: '', inviteCode: '' })
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    inviteCode: '',
+  })
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [submittedEmail, setSubmittedEmail] = useState('')
@@ -16,9 +22,16 @@ export default function Register() {
   async function handleSubmit(e) {
     e.preventDefault()
     setError('')
+
+    if (form.password !== form.confirmPassword) {
+      setError('Passwords do not match.')
+      return
+    }
+
     setSubmitting(true)
     try {
-      await register(form)
+      const { confirmPassword, ...payload } = form
+      await register(payload)
       setSubmittedEmail(form.email)
     } catch (err) {
       setError(err.message)
@@ -69,6 +82,13 @@ export default function Register() {
           name="password"
           type="password"
           value={form.password}
+          onChange={handleChange}
+        />
+        <Field
+          label="Confirm password"
+          name="confirmPassword"
+          type="password"
+          value={form.confirmPassword}
           onChange={handleChange}
         />
         <Field
