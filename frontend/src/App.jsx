@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
+import SiteIntro from './components/SiteIntro'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -21,6 +22,7 @@ import NotFound from './pages/NotFound'
 export default function App() {
   return (
     <div className="min-h-screen flex flex-col">
+      <SiteIntro />
       <Navbar />
       <main className="flex-1">
         <Routes>
