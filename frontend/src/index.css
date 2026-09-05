@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-paper text-ink font-body antialiased;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display font-bold text-ink;
+  }
+  a {
+    @apply text-cardinal-600;
+  }
+  img {
+    @apply select-none;
+  }
+  ::selection {
+    background: #B3212C;
+    color: #FBF9F7;
+  }
+  :focus-visible {
+    outline: 2px solid #B3212C;
+    outline-offset: 2px;
+  }
+}
+
+@layer utilities {
+  .container-page {
+    @apply max-w-5xl mx-auto px-5 sm:px-8;
+  }
+}
