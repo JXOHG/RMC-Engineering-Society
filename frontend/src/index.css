@@ -34,4 +34,32 @@
   .container-page {
     @apply max-w-5xl mx-auto px-5 sm:px-8;
   }
+
+  /* Scroll-reveal: paired with the useReveal hook / <Reveal>. Starts
+     faded and offset, then transitions to its resting state once the
+     "reveal-visible" class lands. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+  .reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Respect reduced-motion preferences: skip the parallax/reveal
+   animation and just show final content in place. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { api } from '../api/client'
+import Reveal from '../components/Reveal'
 
 const emptyForm = { name: '', location: '', time: '' }
 
@@ -201,9 +202,11 @@ export default function Events() {
 
       {status === 'ready' && events.length > 0 && (
         <div>
-          {events.map((event) => (
-            <div
+          {events.map((event, i) => (
+            <Reveal
               key={event.id}
+              as="div"
+              delay={Math.min(i, 8) * 50}
               className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 py-5 border-t border-ink/10 first:border-t-0"
             >
               <div className="flex items-center gap-4 min-w-0">
@@ -236,7 +239,7 @@ export default function Events() {
                   </button>
                 </div>
               )}
-            </div>
+            </Reveal>
           ))}
         </div>
       )}

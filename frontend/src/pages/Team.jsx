@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { api } from '../api/client'
+import Reveal from '../components/Reveal'
 
 // Shown whenever a team member has no uploaded photo.
 const PHOTO_PLACEHOLDER = '/team-photo-placeholder.svg'
@@ -35,8 +36,8 @@ export default function Team() {
 
       {status === 'ready' && members.length > 0 && (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-4 sm:gap-x-6 gap-y-8 sm:gap-y-10">
-          {members.map((member) => (
-            <div key={member.id} className="group">
+          {members.map((member, i) => (
+            <Reveal key={member.id} as="div" className="group" delay={Math.min(i, 8) * 50}>
               <div className="overflow-hidden mb-3 border border-ink/10">
                 <img
                   src={member.photoURL || PHOTO_PLACEHOLDER}
@@ -46,7 +47,7 @@ export default function Team() {
               </div>
               <p className="font-display font-bold text-lg text-ink leading-tight">{member.name}</p>
               <p className="text-sm text-steel">{member.title}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
       )}

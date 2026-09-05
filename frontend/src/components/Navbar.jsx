@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import gearLeaf from '../assets/gear-leaf-logo.png'
@@ -17,6 +17,19 @@ const mobileLinkClass = ({ isActive }) =>
 export default function Navbar() {
   const { user, logout } = useAuth()
   const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  // Tightens up and picks up a shadow once the page has scrolled a
+  // little, so the sticky bar reads as "lifted" above the content
+  // instead of just sitting flush against it the whole way down.
+  useEffect(() => {
+    function onScroll() {
+      setScrolled(window.scrollY > 8)
+    }
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   function closeMenu() {
     setMenuOpen(false)
@@ -28,15 +41,31 @@ export default function Navbar() {
   }
 
   return (
-    <header className="border-b-[3px] border-cardinal-600 bg-paper/95 backdrop-blur sticky top-0 z-30">
-      <div className="container-page flex items-center justify-between h-16 sm:h-20">
+    <header
+      className={`border-b-[3px] border-cardinal-600 bg-paper/95 backdrop-blur sticky top-0 z-30 transition-shadow duration-300 ${
+        scrolled ? 'shadow-[0_8px_24px_-12px_rgba(32,31,29,0.35)]' : 'shadow-none'
+      }`}
+    >
+      <div
+        className={`container-page flex items-center justify-between transition-[height] duration-300 ${
+          scrolled ? 'h-14 sm:h-16' : 'h-16 sm:h-20'
+        }`}
+      >
         <Link to="/" className="flex items-center gap-2 sm:gap-3 shrink-0" onClick={closeMenu}>
-          <img src={gearLeaf} alt="" className="h-9 w-9 sm:h-11 sm:w-11 object-contain" />
+          <img
+            src={gearLeaf}
+            alt=""
+            className={`object-contain transition-all duration-300 ${
+              scrolled ? 'h-8 w-8 sm:h-9 sm:w-9' : 'h-9 w-9 sm:h-11 sm:w-11'
+            }`}
+          />
           <span className="h-7 sm:h-8 w-px bg-steel/30" aria-hidden="true" />
           <img
             src={crest}
             alt="Royal Military College crest"
-            className="h-9 sm:h-11 object-contain"
+            className={`object-contain transition-all duration-300 ${
+              scrolled ? 'h-8 sm:h-9' : 'h-9 sm:h-11'
+            }`}
           />
           <span className="hidden sm:flex flex-col leading-tight ml-1">
             <span className="font-display font-bold text-lg text-ink tracking-tight">

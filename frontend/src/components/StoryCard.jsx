@@ -1,14 +1,22 @@
 import { Link } from 'react-router-dom'
 import { format } from 'date-fns'
+import useReveal from '../hooks/useReveal'
 
 export default function StoryCard({ story, index }) {
+  const [ref, visible] = useReveal()
   const refNumber = String(index + 1).padStart(3, '0')
   const dateLabel = story.createdAt ? format(new Date(story.createdAt), 'd MMM yyyy') : ''
+  // Cards further down the list wait a touch longer so the list
+  // cascades in rather than popping all at once, capped so a long
+  // list doesn't leave the bottom cards waiting forever.
+  const delay = Math.min(index, 6) * 70
 
   return (
     <Link
+      ref={ref}
       to={`/stories/${story.id}`}
-      className="group block py-6 px-3 -mx-3 border-t border-ink/10 first:border-t-0 transition-colors hover:bg-ink/[0.025]"
+      className={`reveal ${visible ? 'reveal-visible' : ''} group block py-6 px-3 -mx-3 border-t border-ink/10 first:border-t-0 transition-colors hover:bg-ink/[0.025]`}
+      style={{ transitionDelay: visible ? `${delay}ms` : '0ms' }}
     >
       <div className="flex gap-4 sm:gap-5">
         {story.coverImageURL && (
