@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import { api } from '../api/client'
 
+// Shown whenever a team member has no uploaded photo.
+const PHOTO_PLACEHOLDER = '/team-photo-placeholder.svg'
+
 export default function Team() {
   const [members, setMembers] = useState([])
   const [status, setStatus] = useState('loading') // loading | ready | error
@@ -36,7 +39,7 @@ export default function Team() {
             <div key={member.id} className="group">
               <div className="overflow-hidden mb-3 border border-ink/10">
                 <img
-                  src={member.photoURL}
+                  src={member.photoURL || PHOTO_PLACEHOLDER}
                   alt={member.name}
                   className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105"
                 />

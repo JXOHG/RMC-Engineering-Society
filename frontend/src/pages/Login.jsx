@@ -3,6 +3,18 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { api } from '../api/client'
 
+// Members only ever have @rmc-cmr.ca accounts (see Register), so on sign in
+// we quietly fill in the domain for anyone who just types their username.
+const EMAIL_DOMAIN = '@rmc-cmr.ca'
+
+function withRmcDomain(value) {
+  const trimmed = value.trim()
+  if (!trimmed) return trimmed
+  if (trimmed.toLowerCase().endsWith(EMAIL_DOMAIN)) return trimmed
+  const localPart = trimmed.includes('@') ? trimmed.slice(0, trimmed.indexOf('@')) : trimmed
+  return `${localPart}${EMAIL_DOMAIN}`
+}
+
 export default function Login() {
   const { login } = useAuth()
   const navigate = useNavigate()
@@ -16,14 +28,22 @@ export default function Login() {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }))
   }
 
+  // Fill in the domain as soon as the user leaves the field, so they can
+  // see what will actually be submitted before they hit sign in.
+  function handleEmailBlur() {
+    setForm((f) => ({ ...f, email: withRmcDomain(f.email) }))
+  }
+
   async function handleSubmit(e) {
     e.preventDefault()
     setError('')
     setResendMessage('')
     setNeedsVerification(false)
     setSubmitting(true)
+    const email = withRmcDomain(form.email)
+    setForm((f) => ({ ...f, email }))
     try {
-      await login(form)
+      await login({ ...form, email })
       navigate('/dashboard')
     } catch (err) {
       setError(err.message)
@@ -49,7 +69,17 @@ export default function Login() {
       <p className="text-steel mb-8">Sign in to file or edit a dispatch.</p>
 
       <form onSubmit={handleSubmit} className="space-y-5">
-        <Field label="Email" name="email" type="email" value={form.email} onChange={handleChange} />
+        <Field
+          label="Email"
+          name="email"
+          type="text"
+          inputMode="email"
+          autoComplete="email"
+          value={form.email}
+          onChange={handleChange}
+          onBlur={handleEmailBlur}
+          placeholder="you@rmc-cmr.ca"
+        />
         <div>
           <Field
             label="Password"
@@ -94,7 +124,17 @@ export default function Login() {
   )
 }
 
-function Field({ label, name, type = 'text', value, onChange }) {
+function Field({
+  label,
+  name,
+  type = 'text',
+  value,
+  onChange,
+  onBlur,
+  placeholder,
+  inputMode,
+  autoComplete,
+}) {
   return (
     <label className="block">
       <span className="block text-sm font-semibold text-ink mb-1.5">{label}</span>
@@ -104,6 +144,10 @@ function Field({ label, name, type = 'text', value, onChange }) {
         name={name}
         value={value}
         onChange={onChange}
+        onBlur={onBlur}
+        placeholder={placeholder}
+        inputMode={inputMode}
+        autoComplete={autoComplete}
         className="w-full border border-ink/20 px-3 py-2.5 bg-paper focus:border-cardinal-600 outline-none transition-colors"
       />
     </label>

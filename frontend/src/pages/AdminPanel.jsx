@@ -5,6 +5,10 @@ import { api } from '../api/client'
 
 const emptyForm = { name: '', title: '' }
 
+// Shown whenever a team member has no uploaded photo -- adding one is
+// optional, so this fills the gap instead of a broken image.
+const PHOTO_PLACEHOLDER = '/team-photo-placeholder.svg'
+
 export default function AdminPanel() {
   const { user } = useAuth()
 
@@ -76,11 +80,6 @@ export default function AdminPanel() {
   async function handleTeamSubmit(e) {
     e.preventDefault()
     setTeamError('')
-
-    if (!editingId && !photoFile) {
-      setTeamError('A photo is required.')
-      return
-    }
 
     const formData = new FormData()
     formData.append('name', form.name)
@@ -167,15 +166,17 @@ export default function AdminPanel() {
 
         <form onSubmit={handleTeamSubmit} className="space-y-5 max-w-md mb-10">
           <div className="flex gap-5 items-start">
-            {preview && (
-              <img src={preview} alt="" className="h-20 w-20 object-cover border border-ink/10 shrink-0" />
-            )}
+            <img
+              src={preview || PHOTO_PLACEHOLDER}
+              alt=""
+              className="h-20 w-20 object-cover border border-ink/10 shrink-0"
+            />
             <label className="block flex-1">
               <span className="block text-sm font-semibold text-ink mb-1.5">
                 Photo{' '}
-                {editingId && (
-                  <span className="font-normal text-steel">(leave blank to keep current)</span>
-                )}
+                <span className="font-normal text-steel">
+                  {editingId ? '(leave blank to keep current)' : '(optional — a placeholder is used if skipped)'}
+                </span>
               </span>
               <input
                 type="file"
@@ -240,7 +241,7 @@ export default function AdminPanel() {
             >
               <div className="flex items-center gap-4 min-w-0">
                 <img
-                  src={member.photoURL}
+                  src={member.photoURL || PHOTO_PLACEHOLDER}
                   alt=""
                   className="h-12 w-12 object-cover border border-ink/10 shrink-0"
                 />

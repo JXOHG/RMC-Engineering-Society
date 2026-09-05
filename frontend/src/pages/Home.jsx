@@ -22,16 +22,22 @@ export default function Home() {
       <section className="relative overflow-hidden border-b border-ink/10">
         <HeroFacets />
         <div className="container-page relative py-14 sm:py-20 md:py-28">
-          <p className="font-stamp text-xs text-cardinal-600 tracking-wide mb-4">
-            CADET WING &middot; FACULTY OF ENGINEERING
-          </p>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl max-w-[16ch] sm:max-w-lg leading-[0.95]">
-            What&rsquo;s building at RMC.
-          </h1>
-          <p className="mt-5 max-w-[26ch] sm:max-w-sm text-steel leading-relaxed">
-            Competitions, labs, projects and people from the Royal Military
-            College Engineering Society, written up by the cadets running them.
-          </p>
+          {/* Right padding here keeps every line clear of HeroFacets on
+              narrow screens -- below md the decoration would otherwise sit
+              underneath (and, for the red eyebrow text below, behind
+              same-colored red text, which is unreadable). */}
+          <div className="pr-[46%] md:pr-0">
+            <p className="font-stamp text-xs text-cardinal-600 tracking-wide mb-4">
+              CADET WING &middot; FACULTY OF ENGINEERING
+            </p>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl max-w-[16ch] sm:max-w-lg leading-[0.95]">
+              What&rsquo;s building at RMC.
+            </h1>
+            <p className="mt-5 max-w-[26ch] sm:max-w-sm text-steel leading-relaxed">
+              Competitions, labs, projects and people from the Royal Military
+              College Engineering Society, written up by the cadets running them.
+            </p>
+          </div>
         </div>
       </section>
 

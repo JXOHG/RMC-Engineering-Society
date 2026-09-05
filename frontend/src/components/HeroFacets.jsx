@@ -6,7 +6,7 @@ export default function HeroFacets() {
       viewBox="0 0 900 620"
       preserveAspectRatio="xMaxYMid slice"
       aria-hidden="true"
-      className="absolute inset-y-0 right-0 h-full w-[62%] sm:w-[52%]"
+      className="absolute inset-y-0 right-0 h-full w-[34%] sm:w-[40%] md:w-[52%]"
     >
       <polygon points="900,0 900,620 520,620" fill="#B3212C" />
       <polygon points="900,0 900,340 610,0" fill="#8F1A23" />

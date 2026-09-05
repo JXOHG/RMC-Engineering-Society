@@ -51,11 +51,14 @@ export async function create(req, res) {
     if (!name || !title) {
       return res.status(400).json({ message: 'Name and title are required.' })
     }
-    if (!req.file) {
-      return res.status(400).json({ message: 'A photo is required.' })
-    }
 
-    const { photoPath, photoURL } = await uploadPhoto(req.file)
+    // Photo is optional -- the frontend shows a placeholder for members
+    // without one, so we just leave photoURL/photoPath empty here.
+    let photoPath = null
+    let photoURL = null
+    if (req.file) {
+      ;({ photoPath, photoURL } = await uploadPhoto(req.file))
+    }
 
     // New members go to the end of the display order by default.
     const last = await team.orderBy('order', 'desc').limit(1).get()
