@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { api } from '../api/client'
 import Reveal from '../components/Reveal'
+import HeroFacets from '../components/HeroFacets'
 
 // Shown whenever a team member has no uploaded photo.
 const PHOTO_PLACEHOLDER = '/team-photo-placeholder.svg'
@@ -20,10 +21,20 @@ export default function Team() {
   }, [])
 
   return (
-    <div className="container-page py-14">
-      <h1 className="text-4xl mb-2">The team</h1>
-      <p className="text-steel mb-10">The cadets running the RMC Engineering Society.</p>
+    <>
+      <section className="relative overflow-hidden border-b border-ink/10">
+        <HeroFacets />
+        <div className="container-page relative py-10 sm:py-14">
+          {/* Right padding here keeps the heading clear of HeroFacets on
+              narrow screens, same as the homepage hero. */}
+          <div className="pr-[46%] md:pr-0">
+            <h1 className="text-4xl mb-2">The team</h1>
+            <p className="text-steel">The cadets running the RMC Engineering Society.</p>
+          </div>
+        </div>
+      </section>
 
+      <div className="container-page py-10 sm:py-14">
       {status === 'loading' && <p className="text-steel py-10">Loading the team&hellip;</p>}
 
       {status === 'error' && (
@@ -51,6 +62,7 @@ export default function Team() {
           ))}
         </div>
       )}
-    </div>
+      </div>
+    </>
   )
 }

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { api } from '../api/client'
 import Reveal from '../components/Reveal'
+import HeroFacets from '../components/HeroFacets'
 
 const emptyForm = { name: '', location: '', time: '' }
 
@@ -111,10 +112,20 @@ export default function Events() {
   }
 
   return (
-    <div className="container-page py-14">
-      <h1 className="text-4xl mb-2">Events</h1>
-      <p className="text-steel mb-10">Upcoming events from the RMC Engineering Society.</p>
+    <>
+      <section className="relative overflow-hidden border-b border-ink/10">
+        <HeroFacets />
+        <div className="container-page relative py-10 sm:py-14">
+          {/* Right padding here keeps the heading clear of HeroFacets on
+              narrow screens, same as the homepage hero. */}
+          <div className="pr-[46%] md:pr-0">
+            <h1 className="text-4xl mb-2">Events</h1>
+            <p className="text-steel">Upcoming events from the RMC Engineering Society.</p>
+          </div>
+        </div>
+      </section>
 
+      <div className="container-page py-10 sm:py-14">
       {/* Only admins ever see the add/edit form — everyone else just
           gets the read-only list below. The server enforces this too
           (requireAuth + requireAdmin on write routes), so this is a
@@ -243,6 +254,7 @@ export default function Events() {
           ))}
         </div>
       )}
-    </div>
+      </div>
+    </>
   )
 }
