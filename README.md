@@ -127,7 +127,7 @@ When you deploy:
 - Use the `FIREBASE_SERVICE_ACCOUNT_JSON` option for the backend if your
   host doesn't let you upload the key file directly.
 
-## Notes / assumptions made
+## Notes 
 
 - Every registered member can create, edit, and delete **their own**
   dispatches only — there's no moderation queue or separate admin role
