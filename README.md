@@ -9,17 +9,14 @@ signed-in cadets can write, edit, and delete their own posts.
 - **Database:** Google Firestore (via `firebase-admin`)
 - **Auth:** Email/password, JWT sessions, gated behind a society invite code
 
-The red palette (`#B3212C`, `#8F1A23`, `#D6323E`, `#201F1D`) was sampled
-directly from the Engineering Competition cover page you shared, and both
-crests (the gear-and-maple-leaf mark and the RMC/CMR crest) are used in the
-site header and footer.
-
 ```
 rmc-eng-society/
 ├── backend/     Express API (Node, ESM)
 └── frontend/    React + Vite app
 ```
 
+
+##INSTRUCTION TO RECREATE PROJECT
 ## 1. Create the Firestore project
 
 1. Go to the [Firebase console](https://console.firebase.google.com), create
@@ -29,7 +26,7 @@ rmc-eng-society/
    so client-side rules aren't involved — see `backend/firestore.rules`).
 3. Project settings (gear icon) → **Service accounts** → **Generate new
    private key**. This downloads a JSON file — keep it secret, it's a
-   master key to your Firestore data.
+   master key to the Firestore data.
 4. Optional but recommended: deploy the two composite indexes this API
    needs (`backend/firestore.indexes.json`) with the Firebase CLI:
    ```bash
