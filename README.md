@@ -16,7 +16,7 @@ rmc-eng-society/
 ```
 
 
-##INSTRUCTION TO RECREATE PROJECT
+## INSTRUCTION TO RECREATE PROJECT
 ## 1. Create the Firestore project
 
 1. Go to the [Firebase console](https://console.firebase.google.com), create
